@@ -129,6 +129,16 @@ Limitations:
 - Frames only go out when the network can carry them (at most a couple in flight). On a slow link you get a lower frame rate, not growing lag. Bitrate adapts automatically.
 - After motion stops, the last frame is re-sharpened up to 3 times, so text gets crisp even on mobile data.
 
+## Measured resource use (MacBook Air M2, PocketMac Host)
+
+| State | CPU | Wake-ups | Energy impact | Memory |
+|---|---|---|---|---|
+| Idle, no iPhone (v1) | 2.42 % | 4.4 /s | 2.43 | 33 MB |
+| **Idle, no iPhone (now)** | **0.02 %** | **0 /s** | **0.02** | **12 MB** |
+| Connected, busy screen (~29 fps, Balanced) | 5.4 % | 2.3 /s | 5.4 | 17 MB |
+
+Busy-screen stream: 605 kbps average (≈ 270 MB per hour of constant motion); a still screen sends almost nothing. For scale, WindowServer was at ~35 and the Claude app ~14 at the same moment.
+
 ## Development
 
 ```bash
