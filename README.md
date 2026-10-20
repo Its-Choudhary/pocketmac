@@ -131,13 +131,25 @@ Limitations:
 
 ## Measured resource use (MacBook Air M2, PocketMac Host)
 
-| State | CPU | Wake-ups | Energy impact | Memory |
-|---|---|---|---|---|
-| Idle, no iPhone (v1) | 2.42 % | 4.4 /s | 2.43 | 33 MB |
-| **Idle, no iPhone (now)** | **0.02 %** | **0 /s** | **0.02** | **12 MB** |
-| Connected, busy screen (~29 fps, Balanced) | 5.4 % | 2.3 /s | 5.4 | 17 MB |
+**Idle (no iPhone connected)** — 60 s average:
 
-Busy-screen stream: 605 kbps average (≈ 270 MB per hour of constant motion); a still screen sends almost nothing. For scale, WindowServer was at ~35 and the Claude app ~14 at the same moment.
+| Version | CPU | Wake-ups | Energy impact | Memory |
+|---|---|---|---|---|
+| v1 | 2.42 % | 4.4 /s | 2.43 | 33 MB |
+| **now** | **0.02 %** | **0–0.1 /s** | **0.02** | **13 MB** |
+
+For comparison on the same Mac at the same time: Claude app 0.58 % (260 MB), Wispr Flow 0.45 % (163 MB), ControlCenter 0.45 % (54 MB), Finder 0.01 % (144 MB), Tailscale's network extension 0.00 % (12 MB).
+
+**Connected, A/B on an identical moving test picture, nobody touching** (30 s, two rounds each):
+
+| | Before smart frame rate | After |
+|---|---|---|
+| CPU | 4.1–4.5 % | 2.7–2.8 % |
+| Wake-ups | 5.9–10.3 /s | 3.1–3.2 /s |
+| Frames sent | 651 | 227 |
+| Data | 123 kbps | 29 kbps |
+
+While you touch or type, it runs at full frame rate; when only small things animate by themselves it drops to 10 fps. A busy real screen (big changes, ~30 fps) measured 4.9 % CPU.
 
 ## Development
 
