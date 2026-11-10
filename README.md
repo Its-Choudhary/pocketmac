@@ -13,9 +13,11 @@ Control your MacBook Air (M2) from your iPhone 12 — see the screen live and dr
 |---|---|
 | `Host/` | **PocketMac Host**: the Mac menu-bar app (screen capture, hardware encoder, input, lid-closed mode) |
 | `iOS/` | **PocketMac**: the iPhone app (SwiftUI + UIKit) |
+| `android/` | **PocketMac for Android**: the same app for Android 8–17 (Kotlin + Jetpack Compose) |
 | `Shared/` | Protocol + crypto + networking used by both |
 | `tools/` | Build scripts and tests (`run-tests.sh`, `pmtest`, `wiretest`, `check-ios.sh`) |
 | `.github/workflows/build-ios.yml` | Cloud build that makes the `.ipa` for sideloading |
+| `.github/workflows/build-android.yml` | Cloud build that makes `PocketMac.apk`, runs the protocol tests and an emulator test with real Mac video |
 
 ## Features
 
@@ -109,6 +111,16 @@ A free Apple ID signature lasts **7 days**. Re-sign and reinstall weekly (Sidelo
 - **From anywhere**: install Tailscale on the Mac and the iPhone and sign in with the same account. In the Mac's PocketMac Host window, copy the **Tailscale** address (100.x.y.z). On the iPhone: edit the Mac → **Internet address** → paste it. PocketMac tries the nearby path and the Tailscale path at once and keeps whichever connects first.
   - In the Tailscale admin page, turn on **Disable key expiry** for the Mac so it never logs out while you're away.
 
+### 5. Android phone (optional, works alongside the iPhone)
+
+1. GitHub → **Actions → Build Android app (.apk)** → latest run → download **PocketMac-apk** (a zip with `PocketMac.apk`).
+2. Copy `PocketMac.apk` to the phone (USB, Drive, Telegram, anything), open it and allow **Install unknown apps** for the app you opened it from.
+3. On the Mac, in PocketMac Host click **Pair another phone (opens for 5 min)** — the Mac only accepts phones it has paired.
+4. Open PocketMac on the phone → your Mac appears under **Nearby** → **Add** → password → **Connect**. On Android 17 allow **local network access** when asked.
+
+Same gestures, keyboard bar, quick actions, clipboard, Tailscale, reconnect and lid-closed support as the iPhone app. Press **back twice** to disconnect (one stray edge swipe won't lock your Mac).
+Under the hood: hardware HEVC (or H.264 when the phone has no HEVC decoder) decoded straight onto a `SurfaceView` with the decoder's low-latency mode, touch events delivered unbatched, video buffers reused (no GC stutter), the display allowed to drop to the stream's frame rate on 90/120 Hz screens, and the saved login encrypted with an Android Keystore key and gated by fingerprint / screen lock.
+
 ## Lid closed
 
 1. Mac menu bar → **Keep running with lid closed** (asks for your Mac password). This runs `pmset -a disablesleep 1`.
@@ -167,6 +179,11 @@ Type-checks the iPhone app against Mac Catalyst's UIKit, so cloud builds don't f
 tools/test-catalyst.sh /tmp/pm-cat
 ```
 Runs the iPhone app as a Mac app connected to a test host.
+
+```bash
+tools/make-vectors.sh /tmp/pm-vec
+```
+Regenerates the Android test data from the Swift code: known-answer vectors for the handshake, crypto and every message (`android/app/src/test/resources/vectors.txt`, checked by `ProtocolVectorsTest`) and short HEVC/H.264 recordings from a test-pattern host (`android/app/src/androidTest/assets`, decoded on an emulator by `DecoderTest`). Run it after any protocol change. The Android app is built by GitHub Actions; screenshots of every screen are uploaded with each run (**device-results**).
 
 ## Ideas for next versions
 
