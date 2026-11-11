@@ -64,7 +64,26 @@ Works with an **iPhone** (iOS 17+) or an **Android phone** (Android 8 to 17), an
 <sub>Keyboard with the shortcut bar (Android, landscape)</sub>
 </p>
 
-> The Mac screen in these pictures is PocketMac's built-in demo desktop, used by the automatic tests. All screenshots are taken by GitHub Actions from the real apps.
+<details>
+<summary><b>More screenshots</b></summary>
+<br>
+
+<table>
+<tr>
+<td align="center"><img src="docs/screenshots/iphone-add-mac.png" width="230"><br><sub>iPhone: add a Mac</sub></td>
+<td align="center"><img src="docs/screenshots/iphone-settings.png" width="230"><br><sub>iPhone: settings</sub></td>
+<td align="center"><img src="docs/screenshots/android-add-mac.png" width="230"><br><sub>Android: add a Mac</sub></td>
+<td align="center"><img src="docs/screenshots/android-remote-portrait.png" width="230"><br><sub>Android: the Mac's screen</sub></td>
+</tr>
+</table>
+
+<p align="center"><img src="docs/screenshots/iphone-keyboard.png" width="760"><br><sub>iPhone: keyboard on the remote screen</sub></p>
+<p align="center"><img src="docs/screenshots/android-remote-landscape.png" width="760"><br><sub>Android: remote screen with the toolbar (battery, delay, frames per second)</sub></p>
+<p align="center"><img src="docs/screenshots/android-toolbar-hidden.png" width="760"><br><sub>Android: toolbar hidden, the whole screen is the Mac</sub></p>
+
+</details>
+
+> The Mac screen in these pictures is PocketMac's built-in demo desktop, never a real screen. All screenshots are taken automatically by GitHub Actions from the real apps (iPhone Simulator and Android emulator), so the delay and fps numbers in them come from those test machines, not from a real phone.
 
 ---
 
